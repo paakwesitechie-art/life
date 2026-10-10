@@ -51,20 +51,71 @@ document.querySelectorAll(".service-book").forEach((button) => {
 });
 
 // Update available times for the selected date
+
 function updateAvailableTimes() {
   const selectedDate = dateInput.value;
+  const now = new Date();
+  const todayString = getLocalDateString(now);
 
+  // Reset every time option first
   Array.from(timeSelect.options).forEach((option, index) => {
-    if (index === 0) return;
-
-    option.disabled = false;
+    if (index !== 0) {
+      option.disabled = false;
+    }
   });
 
-  if (!selectedDate) return;
+  if (!selectedDate) {
+    timeSelect.value = "";
+    return;
+  }
 
+  // Demo opening days: Monday to Saturday
   const selectedDay = new Date(
     `${selectedDate}T12:00:00`
   ).getDay();
+
+  if (selectedDay === 0) {
+    Array.from(timeSelect.options).forEach((option, index) => {
+      if (index !== 0) {
+        option.disabled = true;
+      }
+    });
+
+    timeSelect.value = "";
+    formMessage.textContent =
+      "We're closed on Sundays. Please choose another date.";
+    formMessage.className = "form-message error";
+    return;
+  }
+
+  formMessage.textContent = "";
+  formMessage.className = "form-message";
+
+  // Disable past time slots when the selected date is today
+  if (selectedDate === todayString) {
+    const currentMinutes =
+      now.getHours() * 60 + now.getMinutes();
+
+    Array.from(timeSelect.options).forEach((option, index) => {
+      if (index === 0) return;
+
+      const [hours, minutes] = option.value.split(":").map(Number);
+      const slotMinutes = hours * 60 + minutes;
+
+      if (slotMinutes <= currentMinutes) {
+        option.disabled = true;
+      }
+    });
+  }
+
+  // Clear a previously selected time if it is no longer available
+  if (
+    timeSelect.selectedOptions[0] &&
+    timeSelect.selectedOptions[0].disabled
+  ) {
+    timeSelect.value = "";
+  }
+}
 
   // Demo opening days: Monday through Saturday
   if (selectedDay === 0) {
