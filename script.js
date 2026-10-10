@@ -6,22 +6,26 @@ const serviceSelect = document.querySelector("#service");
 const dateInput = document.querySelector("#booking-date");
 const timeSelect = document.querySelector("#booking-time");
 const formMessage = document.querySelector("#form-message");
-
+```javascript
 // Mobile navigation
-menuToggle.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("open");
+if (menuToggle && nav) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
 
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-  menuToggle.textContent = isOpen ? "✕" : "☰";
-});
-
-nav.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.textContent = "☰";
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.textContent = isOpen ? "×" : "☰";
   });
-});
+
+  nav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰";
+    });
+  });
+}
+```
+
 
 // Current year in footer
 document.querySelector("#year").textContent =
