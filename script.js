@@ -6,7 +6,7 @@ const serviceSelect = document.querySelector("#service");
 const dateInput = document.querySelector("#booking-date");
 const timeSelect = document.querySelector("#booking-time");
 const formMessage = document.querySelector("#form-message");
-```javascript
+
 // Mobile navigation
 if (menuToggle && nav) {
   menuToggle.addEventListener("click", () => {
@@ -24,7 +24,6 @@ if (menuToggle && nav) {
     });
   });
 }
-```
 
 
 // Current year in footer
